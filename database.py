@@ -7,9 +7,13 @@ def init_db():
     conn = sqlite3.connect('visitors.db')
     c = conn.cursor()
 
+    # # Drop existing tables if they exist
+    # c.execute('DROP TABLE IF EXISTS employees')
+    # c.execute('DROP TABLE IF EXISTS visitors')
+
     # Create employees table with ID as primary key
     c.execute('''CREATE TABLE IF NOT EXISTS employees (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    eid INTEGER PRIMARY KEY ,
                     email TEXT NOT NULL UNIQUE,
                     name TEXT NOT NULL)''')
 
@@ -26,17 +30,17 @@ def init_db():
     conn.commit()
     conn.close()
 
-def add_employee(email, name):
+def add_employee(eid,email, name):
     conn = sqlite3.connect('visitors.db')
     c = conn.cursor()
-    c.execute("INSERT INTO employees (email, name) VALUES (?, ?)", (email, name))
+    c.execute("INSERT INTO employees (eid, email, name) VALUES (?, ?, ?)", (eid ,email, name))
     conn.commit()
     conn.close()
 
 def get_employee_id_by_email(email):
     conn = sqlite3.connect('visitors.db')
     c = conn.cursor()
-    c.execute("SELECT id FROM employees WHERE email = ?", (email,))
+    c.execute("SELECT eid FROM employees WHERE email = ?", (email,))
     result = c.fetchone()
     conn.close()
     if result:
@@ -61,7 +65,7 @@ def get_visitors():
     c = conn.cursor()
     c.execute('''SELECT visitors.id, visitors.name, visitors.visit_date, visitors.purpose, visitors.contact, employees.email
                  FROM visitors
-                 JOIN employees ON visitors.host_id = employees.id''')
+                 JOIN employees ON visitors.host_id = employees.eid''')
     records = c.fetchall()
     conn.close()
     return records
@@ -71,7 +75,7 @@ def search_visitors(name):
     c = conn.cursor()
     c.execute('''SELECT visitors.id, visitors.name, visitors.visit_date, visitors.purpose, visitors.contact, employees.email
                  FROM visitors
-                 JOIN employees ON visitors.host_id = employees.id
+                 JOIN employees ON visitors.host_id = employees.eid
                  WHERE visitors.name LIKE ?''', ('%' + name + '%',))
     records = c.fetchall()
     conn.close()
