@@ -1,6 +1,6 @@
 # Visitor Management System
 
-A Visitor Management System built with Python, SQLite, and Tkinter. This system allows you to manage visitor entries, send notification emails to host employees, and view/search visitor records.
+A Visitor Management System built with Python, SQLite, and Tkinter. This system allows you to manage visitor entries, send notification emails and sms to host employees, and view/search visitor records.
 
 ## Project Structure
 
@@ -19,11 +19,12 @@ A Visitor Management System built with Python, SQLite, and Tkinter. This system 
 
 ### Install Required Libraries
 
-Make sure you have the following standard libraries: `sqlite3`, `tkinter`, and `smtplib`. These should come pre-installed with Python.
+Make sure you have the following standard libraries: `sqlite3`, `tkinter`,'twilio' and `smtplib`. These should come pre-installed with Python.
 
 ### SMTP Configuration
 
 In `database.py`, update the `send_email_to_host` function with your actual email and password. If you're using Gmail, you might need to enable "Less secure app access" or use an App Password for your Google account.
+In `database.py`, update the `send_sms` function with your actual accont_sid,auth_token and from_.
 
 ### Initialize the Database and Add Employees
 
@@ -42,7 +43,7 @@ In `database.py`, update the `send_email_to_host` function with your actual emai
 3. To add a new employee, use the `add_employees.py` before starting the GUI:
     ```python
     import database
-    database.add_employee('john.doe@example.com', 'John Doe')
+    database.add_employee(12, "john.doe@example.com", "+18777804236", "John Doe")
     ```
 
 ## License
