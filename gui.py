@@ -41,7 +41,7 @@ def start_gui():
 
         if name and visit_date and purpose and host_email:
             if database.add_visitor(name, visit_date, purpose, contact, host_email):
-                messagebox.showinfo("Success", "Visitor added successfully and email sent to host!")
+                messagebox.showinfo("Success", "Visitor added successfully and message sent to host!")
             else:
                 messagebox.showerror("Error", "Host employee email not found.")
         else:
